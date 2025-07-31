@@ -2,14 +2,45 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { Toaster } from "react-hot-toast";
+import Home from "./pages/Home";
+import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
+import { useSelector } from "react-redux";
+import Loader from "./components/Loader";
+import "./styles/custom-components.css";
 
 function App() {
+  const { loading } = useSelector((state) => state.alert);
+
   return (
     <div>
+      {loading && <Loader />}
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <Login />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <PublicRoute>
+                <Register />
+              </PublicRoute>
+            }
+          />
         </Routes>
       </BrowserRouter>
       <Toaster position="top-right" reverseOrder={false} />

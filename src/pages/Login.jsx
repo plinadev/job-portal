@@ -1,19 +1,27 @@
 import { Form } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../apis/authentication";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { hideLoading, showLoading } from "../redux/alertSlice";
 
 function Login() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const onFinish = async (values) => {
     try {
+      dispatch(showLoading());
       const response = await loginUser(values);
       if (!response.success) {
         toast.error(response.message);
       } else {
         toast.success(response.message);
+        navigate("/");
       }
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      dispatch(hideLoading());
     }
   };
 

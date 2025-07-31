@@ -17,7 +17,8 @@ export const loginUser = async (payload) => {
       };
     }
 
-    const userData = querySnapshot.docs[0].data();
+    const doc = querySnapshot.docs[0];
+    const userData = doc.data();
     const hashedInputPassword = CryptoJS.SHA256(payload.password).toString();
     const doPasswordsMatch = hashedInputPassword === userData.password;
 
@@ -27,11 +28,16 @@ export const loginUser = async (payload) => {
         message: "Provided password is incorrect",
       };
     }
+
     const { password, ...cleanUserData } = userData;
+    const userWithId = { id: doc.id, ...cleanUserData };
+
+    localStorage.setItem("user", JSON.stringify(userWithId));
+
     return {
       success: true,
       message: "Login successful",
-      data: cleanUserData,
+      data: userWithId,
     };
   } catch (error) {
     return {
@@ -50,7 +56,7 @@ export const registerUser = async (payload) => {
     );
     const querySnapshot = await getDocs(qry);
 
-    if (querySnapshot.empty) {
+    if (!querySnapshot.empty) {
       return {
         success: false,
         message: "Email already in use",
@@ -58,15 +64,23 @@ export const registerUser = async (payload) => {
     }
 
     const hashedPassword = CryptoJS.SHA256(payload.password).toString();
-    const response = await addDoc(collection(fireDB, "users"), {
+    const userDataToSave = {
       ...payload,
       password: hashedPassword,
-    });
+    };
+
+    const response = await addDoc(collection(fireDB, "users"), userDataToSave);
+
+    const { password, ...cleanUserData } = userDataToSave;
+    const userWithId = { id: response.id, ...cleanUserData };
+
+    // ✅ Save to localStorage
+    localStorage.setItem("user", JSON.stringify(userWithId));
 
     return {
       success: true,
       message: "User registered successfully",
-      data: response,
+      data: userWithId,
     };
   } catch (error) {
     return {
