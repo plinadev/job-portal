@@ -1,10 +1,22 @@
 import { Form } from "antd";
 import { Link } from "react-router-dom";
+import { registerUser } from "../apis/authentication";
+import toast from "react-hot-toast";
 
 function Register() {
-  const onFinish = (values) => {
-    console.log("Success: ", values);
+  const onFinish = async (values) => {
+    try {
+      const response = await registerUser(values);
+      if (!response.success) {
+        toast.error(response.message);
+      } else {
+        toast.success(response.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
+
   return (
     <div className="h-screen d-flex justify-content-center align-items-center bg-primary">
       <div className="bg-white p-4 w-400">
@@ -21,7 +33,7 @@ function Register() {
             <input type="password" />
           </Form.Item>
           <button className="primary-contained-btn w-100 mt-3" type="submit">
-            Login
+            Register
           </button>
           <Link to="/login" className="d-block mt-2">
             Already have an account? Click here to login

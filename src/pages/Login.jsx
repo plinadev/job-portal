@@ -1,10 +1,22 @@
 import { Form } from "antd";
 import { Link } from "react-router-dom";
+import { loginUser } from "../apis/authentication";
+import toast from "react-hot-toast";
 
 function Login() {
-  const onFinish = (values) => {
-    console.log("Success: ", values);
+  const onFinish = async (values) => {
+    try {
+      const response = await loginUser(values);
+      if (!response.success) {
+        toast.error(response.message);
+      } else {
+        toast.success(response.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
+
   return (
     <div className="h-screen d-flex justify-content-center align-items-center bg-primary">
       <div className="bg-white p-4 w-400">
