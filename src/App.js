@@ -10,6 +10,7 @@ import Loader from "./components/Loader";
 import "./styles/custom-components.css";
 import "./styles/layout.css";
 import AppliedJobs from "./pages/user/AppliedJobs";
+import Profile from "./pages/user/profile";
 
 function App() {
   const { loading } = useSelector((state) => state.alert);
@@ -32,6 +33,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <AppliedJobs />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
               </ProtectedRoute>
             }
           />
