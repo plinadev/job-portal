@@ -73,12 +73,12 @@ function Layout({ children }) {
       icon: <HiHome />,
     },
     {
-      title: "Applications",
+      title: "Applied Jobs",
       onClick: () => {
-        navigate("/admin/applications");
+        navigate("/applied-jobs");
       },
-      path: "/admin/applications",
-      icon: <HiIdentification />,
+      path: "/applied-jobs",
+      icon: <HiAnnotation />,
     },
     {
       title: "Jobs",

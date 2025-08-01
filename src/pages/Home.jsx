@@ -6,12 +6,16 @@ import toast from "react-hot-toast";
 import { getAllJobs } from "../apis/jobs";
 import PageTitle from "../components/PageTitle";
 import { Col, Row } from "antd";
+import Filters from "../components/Filters";
 
 function Home() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
-
+  const [filters, setFilters] = useState({
+    location: "",
+    industry: "",
+  });
   const getData = async () => {
     try {
       dispatch(showLoading());
@@ -19,7 +23,6 @@ function Home() {
       if (!response.success) {
         toast.error(response.message);
       } else {
-        console.log("jobs:", response.data);
         setData(response.data);
       }
     } catch (error) {
@@ -35,6 +38,7 @@ function Home() {
   return (
     <div>
       <PageTitle>Welcome to JOB PORTAL</PageTitle>
+      <Filters filters={filters} setFilters={setFilters} setData={setData} />
       <Row gutter={[15, 15]} className="mt-3">
         {data.map((job) => (
           <Col span={8} key={job.id}>

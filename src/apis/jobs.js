@@ -118,14 +118,27 @@ export const deleteJob = async (jobId) => {
   }
 };
 
-export const getAllJobs = async () => {
+export const getAllJobs = async (filters) => {
   try {
     const jobs = [];
+    const whereConditions = [];
 
-    const jobsRef = collection(fireDB, "jobs");
-    const q = query(jobsRef, orderBy("postedOn", "desc"));
+    // Build where conditions
+    if (filters) {
+      Object.keys(filters).forEach((key) => {
+        const value = filters[key];
+        if (value && value.trim() !== "") {
+          whereConditions.push(where(key, "==", value));
+        }
+      });
+    }
+
+    // Construct query
+    const baseRef = collection(fireDB, "jobs");
+    const q = query(baseRef, ...whereConditions, orderBy("postedOn", "desc"));
+
+    // Get data
     const querySnapshot = await getDocs(q);
-
     querySnapshot.forEach((doc) => {
       jobs.push({ id: doc.id, ...doc.data() });
     });
@@ -135,6 +148,7 @@ export const getAllJobs = async () => {
       data: jobs,
     };
   } catch (error) {
+    console.error(error.message);
     return {
       success: false,
       message: "Something went wrong while fetching jobs",
