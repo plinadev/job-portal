@@ -1,13 +1,16 @@
 import { useState } from "react";
 import {
   HiAnnotation,
+  HiBriefcase,
   HiCursorClick,
   HiHeart,
   HiHome,
+  HiIdentification,
   HiLogout,
   HiOutlineMenu,
   HiOutlineX,
   HiUser,
+  HiUsers,
 } from "react-icons/hi";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -16,6 +19,7 @@ function Layout({ children }) {
   const [expanded, setExpanded] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+
   const userMenu = [
     {
       title: "Home",
@@ -59,11 +63,63 @@ function Layout({ children }) {
       icon: <HiLogout />,
     },
   ];
+  const AdminMenu = [
+    {
+      title: "Home",
+      onClick: () => {
+        navigate("/");
+      },
+      path: "/",
+      icon: <HiHome />,
+    },
+    {
+      title: "Applications",
+      onClick: () => {
+        navigate("/admin/applications");
+      },
+      path: "/admin/applications",
+      icon: <HiIdentification />,
+    },
+    {
+      title: "Jobs",
+      onClick: () => {
+        navigate("/admin/jobs");
+      },
+      path: "/admin/jobs",
+      icon: <HiBriefcase />,
+    },
+    {
+      title: "Users",
+      onClick: () => {
+        navigate("/admin/users");
+      },
+      path: "/admin/users",
+      icon: <HiUsers />,
+    },
+    {
+      title: "Profile",
+      onClick: () => {
+        navigate("/profile");
+      },
+      path: "/profile",
+      icon: <HiHeart />,
+    },
+    {
+      title: "Logout",
+      onClick: () => {
+        localStorage.removeItem("user");
+        navigate("/login");
+      },
+      path: "/login",
+      icon: <HiLogout />,
+    },
+  ];
+  const menu = user.isAdmin ? AdminMenu : userMenu;
   return (
     <div className="layout">
       <div className="sidebar">
         <div className="menu">
-          {userMenu.map((menuItem, index) => {
+          {menu.map((menuItem, index) => {
             const isActive = location.pathname === menuItem.path;
             return (
               <div

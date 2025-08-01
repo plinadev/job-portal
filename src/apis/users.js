@@ -1,4 +1,12 @@
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  updateDoc,
+} from "firebase/firestore";
 import { fireDB } from "../firebase.config";
 
 export const updateUserProfile = async (payload) => {
@@ -36,6 +44,45 @@ export const getUserProfileData = async (userId) => {
     return {
       success: false,
       message: "Something went wrong while getting profile data",
+    };
+  }
+};
+
+export const getAllUsers = async () => {
+  try {
+    const users = [];
+
+    const usersRef = collection(fireDB, "users");
+    const querySnapshot = await getDocs(usersRef);
+
+    querySnapshot.forEach((doc) => {
+      users.push({ id: doc.id, ...doc.data() });
+    });
+
+    return {
+      success: true,
+      data: users,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      message: "Something went wrong while fetching users",
+    };
+  }
+};
+
+export const updateUserProfileStatus = async (id, status) => {
+  try {
+    await updateDoc(doc(fireDB, "users", id), { id, status });
+    return {
+      success: true,
+      message: "Status updated successfully",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong while updating user status",
     };
   }
 };

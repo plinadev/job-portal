@@ -13,6 +13,8 @@ import AppliedJobs from "./pages/user/AppliedJobs";
 import Profile from "./pages/user/profile";
 import PostedJobsPage from "./pages/user/postes-jobs";
 import NewEditJob from "./pages/user/postes-jobs/NewEditJob";
+import AllJobsPage from "./pages/admin/AllJobs";
+import AllUsersPage from "./pages/admin/AllUsers";
 
 function App() {
   const { loading } = useSelector((state) => state.alert);
@@ -67,6 +69,24 @@ function App() {
             element={
               <ProtectedRoute>
                 <NewEditJob />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/jobs"
+            element={
+              <ProtectedRoute>
+                <AllJobsPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute>
+                <AllUsersPage />
               </ProtectedRoute>
             }
           />

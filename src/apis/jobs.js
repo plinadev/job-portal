@@ -5,6 +5,7 @@ import {
   doc,
   getDoc,
   getDocs,
+  orderBy,
   query,
   updateDoc,
   where,
@@ -39,7 +40,11 @@ export const getPostedJobsByUserId = async (userId) => {
     const jobs = [];
 
     const jobsRef = collection(fireDB, "jobs");
-    const q = query(jobsRef, where("postedByUserId", "==", userId));
+    const q = query(
+      jobsRef,
+      where("postedByUserId", "==", userId),
+      orderBy("postedOn", "desc")
+    );
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
@@ -116,3 +121,29 @@ export const deleteJob = async (jobId) => {
     };
   }
 };
+
+export const getAllJobs = async () => {
+  try {
+    const jobs = [];
+
+    const jobsRef = collection(fireDB, "jobs");
+    const q = query(jobsRef, orderBy("postedOn", "desc"));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      jobs.push({ id: doc.id, ...doc.data() });
+    });
+
+    return {
+      success: true,
+      data: jobs,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      success: false,
+      message: "Something went wrong while fetching jobs",
+    };
+  }
+};
+
