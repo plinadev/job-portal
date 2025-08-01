@@ -40,11 +40,7 @@ export const getPostedJobsByUserId = async (userId) => {
     const jobs = [];
 
     const jobsRef = collection(fireDB, "jobs");
-    const q = query(
-      jobsRef,
-      where("postedByUserId", "==", userId),
-      orderBy("postedOn", "desc")
-    );
+    const q = query(jobsRef, where("postedByUserId", "==", userId));
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((doc) => {
@@ -139,7 +135,6 @@ export const getAllJobs = async () => {
       data: jobs,
     };
   } catch (error) {
-    console.error(error);
     return {
       success: false,
       message: "Something went wrong while fetching jobs",
@@ -147,3 +142,115 @@ export const getAllJobs = async () => {
   }
 };
 
+export const applyJobPost = async (payload) => {
+  try {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const job = payload;
+    await addDoc(collection(fireDB, "applications"), {
+      jobId: job.id,
+      jobTitle: job.title,
+      company: job.company,
+      userId: user.id,
+      userName: user.name,
+      email: user.email,
+      phoneNumber: user?.phoneNumber || "",
+      appliedOn: moment().format("DD-MM-YYYY HH:mm A"),
+      status: "pending",
+    });
+
+    return {
+      success: true,
+      message: "Application successfull",
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong while applying for this jobs",
+    };
+  }
+};
+
+export const getApplicationsByUserId = async (userId) => {
+  try {
+    const applications = [];
+    const qry = query(
+      collection(fireDB, "applications"),
+      where("userId", "==", userId)
+    );
+    const querySnapshot = await getDocs(qry);
+    querySnapshot.forEach((doc) => {
+      applications.push({ id: doc.id, ...doc.data() });
+    });
+    return {
+      success: true,
+      data: applications,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong while fetching applications",
+    };
+  }
+};
+
+export const getApplicationsByJobId = async (jobId) => {
+  try {
+    const applications = [];
+    const qry = query(
+      collection(fireDB, "applications"),
+      where("jobId", "==", jobId)
+    );
+    const querySnapshot = await getDocs(qry);
+    querySnapshot.forEach((doc) => {
+      applications.push({ id: doc.id, ...doc.data() });
+    });
+    return {
+      success: true,
+      data: applications,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong while fetching applications ",
+    };
+  }
+};
+
+export const getAllApplications = async () => {
+  try {
+    const applications = [];
+    const qry = query(collection(fireDB, "applications"));
+    const querySnapshot = await getDocs(qry);
+    querySnapshot.forEach((doc) => {
+      applications.push({ id: doc.id, ...doc.data() });
+    });
+    return {
+      success: true,
+      data: applications,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: "Something went wrong while fetching applications",
+    };
+  }
+};
+
+export const changeApplicationStatus = async (payload) => {
+  try {
+    await updateDoc(doc(fireDB, "applications", payload.id), {
+      status: payload.status,
+    });
+
+    return {
+      success: true,
+      message: "Application status updated successfully",
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      success: false,
+      message: "Something went wrong while updating application status",
+    };
+  }
+};

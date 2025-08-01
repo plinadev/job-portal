@@ -8,17 +8,20 @@ import { hideLoading, showLoading } from "../../../redux/alertSlice";
 import { getUserProfileData, updateUserProfile } from "../../../apis/users";
 import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 const { TabPane } = Tabs;
 
 function Profile() {
+  const user = JSON.parse(localStorage.getItem("user"));
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(null);
-
+  const params = useParams();
+  const userId = params.id;
+  const navigate = useNavigate();
   const getData = async () => {
     try {
       dispatch(showLoading());
-      const user = JSON.parse(localStorage.getItem("user"));
-      const response = await getUserProfileData(user.id);
+      const response = await getUserProfileData(userId);
 
       if (response.success) {
         setUserData(response.data);
@@ -66,10 +69,17 @@ function Profile() {
             </TabPane>
           </Tabs>
           <div className="d-flex justify-content-end gap-3">
-            <button className="primary-outlined-btn">Cancel</button>
-            <button className="primary-contained-btn" type="submit">
-              Save
+            <button
+              className="primary-outlined-btn"
+              onClick={() => navigate(-1)}
+            >
+              Cancel
             </button>
+            {userId === user.id && (
+              <button className="primary-contained-btn" type="submit">
+                Save
+              </button>
+            )}
           </div>
         </Form>
       )}

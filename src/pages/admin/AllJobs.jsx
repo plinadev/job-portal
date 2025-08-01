@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { Table } from "antd";
-import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
+import {HiOutlineTrash } from "react-icons/hi";
 import PageTitle from "../../components/PageTitle";
 import { hideLoading, showLoading } from "../../redux/alertSlice";
 import { deleteJob, editJobDetails, getAllJobs } from "../../apis/jobs";

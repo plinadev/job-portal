@@ -48,9 +48,9 @@ function Layout({ children }) {
     {
       title: "Profile",
       onClick: () => {
-        navigate("/profile");
+        navigate(`/profile/${user.id}`);
       },
-      path: "/profile",
+      path: "/profile/:id",
       icon: <HiHeart />,
     },
     {
@@ -99,9 +99,9 @@ function Layout({ children }) {
     {
       title: "Profile",
       onClick: () => {
-        navigate("/profile");
+        navigate(`/profile/${user.id}`);
       },
-      path: "/profile",
+      path: "/profile/:id",
       icon: <HiHeart />,
     },
     {

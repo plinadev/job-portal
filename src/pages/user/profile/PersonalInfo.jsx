@@ -4,38 +4,62 @@ function PersonalInfo() {
   return (
     <Row gutter={[10, 10]}>
       <Col span={8}>
-        <Form.Item label="First Name" name="firstName">
+        <Form.Item
+          label="First Name"
+          name="firstName"
+          rules={[{ required: true, message: "required" }]}
+        >
           <input type="text" />
         </Form.Item>
       </Col>
       <Col span={8}>
-        <Form.Item label="Last Name" name="lastName">
+        <Form.Item
+          label="Last Name"
+          name="lastName"
+          rules={[{ required: true, message: "required" }]}
+        >
           <input type="text" />
         </Form.Item>
       </Col>
       <Col span={8}>
-        <Form.Item label="Email" name="email">
-          <input type="email" />
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[{ required: true, message: "required" }]}
+        >
+          <input type="text" />
         </Form.Item>
       </Col>
       <Col span={8}>
-        <Form.Item label="Phone Number" name="phoneNumber">
-          <input type="tel" />
+        <Form.Item
+          label="Phone Number"
+          name="phoneNumber"
+          rules={[{ required: true, message: "required" }]}
+        >
+          <input type="text" />
         </Form.Item>
       </Col>
       <Col span={8}>
-        <Form.Item label="Portfolio" name="portfolio">
+        <Form.Item
+          label="Portfolio"
+          name="portfolio"
+          rules={[{ required: true, message: "required" }]}
+        >
           <input type="text" />
         </Form.Item>
       </Col>
       <Col span={24}>
-        <Form.Item label="Career Objective" name="careerObjective">
-          <textarea type="text" />
+        <Form.Item
+          label="Carrier Objective"
+          name="carrierObjective"
+          rules={[{ required: true, message: "required" }]}
+        >
+          <textarea type="text" rows={4} />
         </Form.Item>
       </Col>
       <Col span={24}>
         <Form.Item label="Address" name="address">
-          <textarea type="text" />
+          <textarea type="text" rows={4} />
         </Form.Item>
       </Col>
     </Row>

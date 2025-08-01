@@ -193,6 +193,7 @@ function NewEditJob() {
             <button
               className="primary-outlined-btn"
               onClick={() => navigate("/posted-jobs")}
+              type="button"
             >
               Cancel
             </button>

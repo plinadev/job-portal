@@ -4,14 +4,21 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { hideLoading, showLoading } from "../../../redux/alertSlice";
 import toast from "react-hot-toast";
-import { deleteJob, getPostedJobsByUserId } from "../../../apis/jobs";
+import {
+  deleteJob,
+  getApplicationsByJobId,
+  getPostedJobsByUserId,
+} from "../../../apis/jobs";
 import { Table } from "antd";
 import { HiOutlinePencil, HiOutlineTrash } from "react-icons/hi";
+import AppliedCandidates from "./AppliedCandidates";
 
 function PostedJobsPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [data, setData] = useState(null);
+  const [showAppliedCandidates, setShowAppliedCandidates] = useState(false);
+  const [appliedCandidates, setAppliedCandidates] = useState([]);
   const columns = [
     { title: "Title", dataIndex: "title" },
     { title: "Company", dataIndex: "company" },
@@ -23,6 +30,12 @@ function PostedJobsPage() {
       dataIndex: "actions",
       render: (text, record) => (
         <div className="d-flex gap-2">
+          <span
+            className="underline"
+            onClick={() => getAppliedCandidates(record.id)}
+          >
+            Candidates
+          </span>
           <HiOutlineTrash size={22} onClick={() => deleteData(record.id)} />
           <HiOutlinePencil
             size={22}
@@ -41,6 +54,23 @@ function PostedJobsPage() {
         toast.error(response.message);
       } else {
         setData(response.data);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    } finally {
+      dispatch(hideLoading());
+    }
+  };
+
+  const getAppliedCandidates = async (id) => {
+    try {
+      dispatch(showLoading());
+      const response = await getApplicationsByJobId(id);
+      if (!response.success) {
+        toast.error(response.message);
+      } else {
+        setAppliedCandidates(response.data);
+        setShowAppliedCandidates(true);
       }
     } catch (error) {
       toast.error(error.message);
@@ -81,6 +111,15 @@ function PostedJobsPage() {
       </div>
 
       <Table columns={columns} dataSource={data}></Table>
+
+      {showAppliedCandidates && (
+        <AppliedCandidates
+          showAppliedCandidates={showAppliedCandidates}
+          setShowAppliedCandidates={setShowAppliedCandidates}
+          appliedCandidates={appliedCandidates}
+          reloadData={getAppliedCandidates}
+        />
+      )}
     </div>
   );
 }
