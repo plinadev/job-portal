@@ -1,70 +1,88 @@
-# Getting Started with Create React App
+# Job Portal 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full-featured job portal web application built with React and Firebase. It allows users to browse, post, and manage job listings. Includes authentication, form handling, filtering, and state management with Redux Toolkit.
 
-## Available Scripts
+## Tech Stack
 
-In the project directory, you can run:
+- **React 19**
+- **Firebase 12** (Firestore, Auth, Hosting)
+- **Redux Toolkit**
+- **React Router DOM v7**
+- **Ant Design (antd)**
+- **React Hot Toast** – Notifications
+- **Crypto-JS** – Data encryption
+- **Moment.js** – Date handling
+- **React Icons**
 
-### `npm start`
+## Functionality
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- User authentication via Firebase
+- Register as a recruiter or job seeker
+- Post, edit, and delete job listings
+- Filter jobs by industry and location
+- Apply to jobs as a candidate
+- Admin interface for managing listings and users (optional)
+- Client-side form validation and feedback
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Environment Variables
 
-### `npm test`
+To run the app, create a `.env` file in the root directory and add:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```env
+REACT_APP_FIREBASE_API_KEY=
+REACT_APP_FIREBASE_AUTH_DOMAIN=
+REACT_APP_FIREBASE_PROJECT_ID=
+REACT_APP_FIREBASE_STORAGE_BUCKET=
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=
+REACT_APP_FIREBASE_APP_ID=
+REACT_APP_FIREBASE_MEASUREMENT_ID=
+```
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- [Node.js](https://nodejs.org/) (v18+ recommended)
+- Firebase project with Firestore and Auth enabled
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Installation
 
-### `npm run eject`
+1. Clone the repository:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+   ```bash
+   git clone https://github.com/plinadev/job-portal.git
+   cd job-portal
+   ```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. Install dependencies:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+   ```bash
+   npm install
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. Add the `.env` file with your Firebase credentials
 
-## Learn More
+4. Start the development server:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+   ```bash
+   npm start
+   ```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+5. Open your browser at [http://localhost:3000](http://localhost:3000)
 
-### Code Splitting
+## Project Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+/job-portal
+├── public/           # Static assets
+├── src/
+│   ├── components/   # Reusable components
+│   ├── pages/        # Page components (routes)
+│   ├── redux/        # Redux slices and store config
+│   ├── firebase/     # Firebase setup
+│   ├── styles/       # Global and module CSS
+│   └── App.js
+├── .env              # Environment configuration
+├── package.json
+└── README.md
+```
